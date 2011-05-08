@@ -24,6 +24,7 @@ public class Bot42 {
 		System.out.println("Bot42 IRC Bot by Vijfhoek and F16Gaming.");
 		System.out.println("TODO: Add copyright information if we're going to use a license.");
 		System.out.println("TODO: Add more TODO statements.");
+		System.out.println();
 		
 		boolean connected = false;
 		
@@ -33,8 +34,7 @@ public class Bot42 {
 			ircReader = new BufferedReader(new InputStreamReader(ircSocket.getInputStream()));
 			
 			write("NICK " + nick);
-			write("USER javabot 0 * :" + nick);
-			
+			write("USER " + nick.toLowerCase() + " 0 * :" + nick);
 			
 			while (true) {
 				String message = read();
@@ -58,7 +58,6 @@ public class Bot42 {
 				} else if (splitMessage[1].equals("KICK") && splitMessage[3].equals(nick)) {
 					joinedChannels.remove(splitMessage[2]);
 				}
-				
 			}
 		} catch (UnknownHostException e) {
 			System.out.println("[ERR] Can't connect to host " + host + ":" + port);

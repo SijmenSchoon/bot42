@@ -18,6 +18,7 @@ public class Bot42 {
 	
 	public static void main(String[] args) {
 		boolean connected = false;
+		boolean joined = false;
 		try {
 			ircSocket = new Socket(host, port);
 			ircWriter = new PrintWriter(ircSocket.getOutputStream());
@@ -35,8 +36,16 @@ public class Bot42 {
 					write("PONG " + splitMessage[1]);
 				}
 				if (!connected) {
-					
+					if (splitMessage[1].equals("376")) {
+						connected = true;
+						joined = true;
+						write("JOIN #Bot42");
+					} else if (splitMessage[1].equals("433")) {
+						write("NICK Bot42|2");
+						nick = "Bot42|2";
+					}
 				}
+				
 			}
 		} catch (UnknownHostException e) {
 			System.out.println("[ERR] Can't connect to host " + host + ":" + port);

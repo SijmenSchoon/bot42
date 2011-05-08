@@ -52,6 +52,9 @@ public class Bot42 {
 						nick = "Bot42|2";
 					}
 				}
+				if (splitMessage[1].equals("366")) {
+					joinedChannels.add(splitMessage[3]);
+				}
 				
 			}
 		} catch (UnknownHostException e) {

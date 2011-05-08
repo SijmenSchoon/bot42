@@ -46,8 +46,13 @@ public class Bot42 {
 	
 	public static String read() throws IOException {
 		String line = "";
+<<<<<<< HEAD
 		line = ircReader.readLine();
 		System.out.println("[IN]  " + line);
+=======
+		// space before [IN] to make it line up a bit nicer?
+		System.out.println(" [IN] " + line);
+>>>>>>> c952b849d3539dfa30239600479949396daea2cc
 		return line;
 	}
 }

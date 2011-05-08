@@ -128,7 +128,7 @@ public class Bot42 {
 				return false;
 			else
 				return true;
-		} else if (channel.equals(nick)) {
+		} else if (channel.equals(Bot42.nick)) {
 			if (!globalOps.contains(nick))
 				return false;
 			return true;

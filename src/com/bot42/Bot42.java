@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Bot42 {
 	public static String nick = "Bot42";
@@ -15,6 +17,8 @@ public class Bot42 {
 	
 	public static PrintWriter ircWriter = null;
 	public static BufferedReader ircReader = null;
+	
+	public static List<String> joinedChannels = new LinkedList<String>();
 	
 	public static void main(String[] args) {
 		System.out.println("Bot42 IRC Bot by Vijfhoek and F16Gaming.");

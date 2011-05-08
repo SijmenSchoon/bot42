@@ -32,8 +32,8 @@ public class Bot42 {
 			ircWriter = new PrintWriter(ircSocket.getOutputStream());
 			ircReader = new BufferedReader(new InputStreamReader(ircSocket.getInputStream()));
 			
-			write("NICK Bot42");
-			write("USER javabot 0 * :Bot42");
+			write("NICK " + nick);
+			write("USER javabot 0 * :" + nick);
 			
 			
 			while (true) {
@@ -47,9 +47,10 @@ public class Bot42 {
 					if (splitMessage[1].equals("376")) {
 						connected = true;
 						write("JOIN #Bot42");
+						write("PRIVMSG #Bot42 Hello World!");
 					} else if (splitMessage[1].equals("433")) {
-						write("NICK Bot42|2");
-						nick = "Bot42|2";
+						write("NICK " + nick + "|2");
+						nick = nick + "|2";
 					}
 				}
 				if (splitMessage[1].equals("366")) {

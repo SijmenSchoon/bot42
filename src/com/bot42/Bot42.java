@@ -31,7 +31,7 @@ public class Bot42 {
 		
 		boolean connected = false;
 		
-		//clean this up
+		// TODO Add a config file for this
 		globalOps.add("Vijfhoek");
 		globalOps.add("F16Gaming");
 		

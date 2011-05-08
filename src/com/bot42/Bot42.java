@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class Bot42 {
 	public static BufferedReader ircReader = null;
 	
 	public static List<String> joinedChannels = new LinkedList<String>();
+	public static HashMap<String, List<String>> channelOps = new HashMap<String, List<String>>();
 	
 	public static void main(String[] args) {
 		System.out.println("Bot42 IRC Bot by Vijfhoek and F16Gaming.");
@@ -53,12 +55,23 @@ public class Bot42 {
 						write("NICK " + nick);
 					}
 				}
+				// :matilda.kottnet.net 353 Bot42 = #Bot42 :Bot42 ITSBTH @F16Gaming @ChanServ @Vijfhoek
 				if (splitMessage[1].equals("366")) {
 					joinedChannels.add(splitMessage[3]);
-				} else if (splitMessage[1].equals("KICK") && splitMessage[3].equals(nick)) {
+				} else if (splitMessage[1].equals("353")) {
+					List<String> ops = new LinkedList<String>(); 
+					for (int i = 5; i < splitMessage.length; i++) {
+						String targetNick = splitMessage[i].replace(":", "");
+						if (targetNick.substring(0, 1).equals("@")) {
+							ops.add(targetNick.substring(1));
+						}
+					}
+					channelOps.put(splitMessage[4], ops);
+				}
+				else if (splitMessage[1].equals("KICK") && splitMessage[3].equals(nick)) {
 					joinedChannels.remove(splitMessage[2]);
 				} else if (splitMessage[1].equals("PRIVMSG")) {
-					//if (isOp(hostToNick(splitMessage[0]), splitMessage[2])) {
+					if (isOp(hostToNick(splitMessage[0]), splitMessage[2])) {
 						if (splitMessage[3].equals(":.print")) {
 							String buffer = "";
 							for (int i = 4; i < splitMessage.length; i++) {
@@ -67,7 +80,7 @@ public class Bot42 {
 							buffer = buffer.trim();
 							write("PRIVMSG " + splitMessage[2] + " :" + buffer);
 						}
-					//}
+					}
 				}
 			}
 		} catch (UnknownHostException e) {
@@ -93,8 +106,13 @@ public class Bot42 {
 	}
 	
 	public static boolean isOp(String nick, String channel) {
-		write("NAMES " + channel);
-		return false;
+		if (!channelOps.containsKey(channel))
+			return false;
+		List<String> ops = channelOps.get(channel);
+		if (!ops.contains(nick))
+			return false;
+		else
+			return true;
 	}
 	
 	public static String hostToNick(String host) {

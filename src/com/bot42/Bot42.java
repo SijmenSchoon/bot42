@@ -17,17 +17,25 @@ public class Bot42 {
 	public static BufferedReader ircReader = null;
 	
 	public static void main(String[] args) {
+		boolean connected = false;
 		try {
 			ircSocket = new Socket(host, port);
 			ircWriter = new PrintWriter(ircSocket.getOutputStream());
 			ircReader = new BufferedReader(new InputStreamReader(ircSocket.getInputStream()));
 			
+			write("NICK Bot42");
+			write("USER javabot 0 * :Bot42");
+			
+			
 			while (true) {
 				String message = read();
 				String[] splitMessage = message.split(" ");
 				
-				if (splitMessage[0] == "PING") {
+				if (splitMessage[0].equals("PING")) {
 					write("PONG " + splitMessage[1]);
+				}
+				if (!connected) {
+					
 				}
 			}
 		} catch (UnknownHostException e) {
@@ -40,7 +48,8 @@ public class Bot42 {
 	}
 	
 	public static void write(String line) {
-		ircWriter.println(line);
+		ircWriter.print(line + "\r\n");
+		ircWriter.flush();
 		System.out.println("[OUT] " + line);
 	}
 	

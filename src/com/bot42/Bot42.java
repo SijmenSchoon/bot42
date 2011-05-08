@@ -57,6 +57,17 @@ public class Bot42 {
 					joinedChannels.add(splitMessage[3]);
 				} else if (splitMessage[1].equals("KICK") && splitMessage[3].equals(nick)) {
 					joinedChannels.remove(splitMessage[2]);
+				} else if (splitMessage[1].equals("PRIVMSG")) {
+					//if (isOp(hostToNick(splitMessage[0]), splitMessage[2])) {
+						if (splitMessage[3].equals(":.print")) {
+							String buffer = "";
+							for (int i = 4; i < splitMessage.length; i++) {
+								buffer += splitMessage[i] + " ";
+							}
+							buffer = buffer.trim();
+							write("PRIVMSG " + splitMessage[2] + " :" + buffer);
+						}
+					//}
 				}
 			}
 		} catch (UnknownHostException e) {
@@ -82,6 +93,15 @@ public class Bot42 {
 	}
 	
 	public static boolean isOp(String nick, String channel) {
+		write("NAMES " + channel);
 		return false;
+	}
+	
+	public static String hostToNick(String host) {
+		host = host.replaceFirst(":", "");
+		if (!host.contains("!"))
+			return null;
+		String nick = host.split("!")[0];
+		return nick;
 	}
 }

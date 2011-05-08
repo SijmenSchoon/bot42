@@ -21,6 +21,7 @@ public class Bot42 {
 	
 	public static List<String> joinedChannels = new LinkedList<String>();
 	public static HashMap<String, List<String>> channelOps = new HashMap<String, List<String>>();
+	public static List<String> globalOps = new LinkedList<String>();
 	
 	public static void main(String[] args) {
 		System.out.println("Bot42 IRC Bot by Vijfhoek and F16Gaming.");
@@ -29,6 +30,10 @@ public class Bot42 {
 		System.out.println();
 		
 		boolean connected = false;
+		
+		//clean this up
+		globalOps.add("Vijfhoek");
+		globalOps.add("F16Gaming");
 		
 		try {
 			ircSocket = new Socket(host, port);
@@ -114,13 +119,21 @@ public class Bot42 {
 	}
 	
 	public static boolean isOp(String nick, String channel) {
-		if (!channelOps.containsKey(channel))
-			return false;
-		List<String> ops = channelOps.get(channel);
-		if (!ops.contains(nick))
-			return false;
-		else
+		if (channel.startsWith("#"))
+		{
+			if (!channelOps.containsKey(channel))
+				return false;
+			List<String> ops = channelOps.get(channel);
+			if (!ops.contains(nick))
+				return false;
+			else
+				return true;
+		} else if (channel.equals(nick)) {
+			if (!globalOps.contains(nick))
+				return false;
 			return true;
+		}
+		return false;
 	}
 	
 	public static String hostToNick(String host) {

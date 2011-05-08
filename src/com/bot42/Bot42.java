@@ -11,17 +11,17 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Bot42 {
-	public static String nick = "Bot42";
-	public static String host = "irc.kottnet.net";
-	public static int port = 6667;
-	public static Socket ircSocket;
+	private static String nick = "Bot42";
+	private static String host = "irc.kottnet.net";
+	private static int port = 6667;
+	private static Socket ircSocket;
 	
-	public static PrintWriter ircWriter = null;
-	public static BufferedReader ircReader = null;
+	private static PrintWriter ircWriter = null;
+	private static BufferedReader ircReader = null;
 	
-	public static List<String> joinedChannels = new LinkedList<String>();
-	public static HashMap<String, List<String>> channelOps = new HashMap<String, List<String>>();
-	public static List<String> globalOps = new LinkedList<String>();
+	private static List<String> joinedChannels = new LinkedList<String>();
+	private static List<String> globalOps = new LinkedList<String>();
+	private static HashMap<String, List<String>> channelOps = new HashMap<String, List<String>>();
 	
 	public static void main(String[] args) {
 		System.out.println("Bot42 IRC Bot by Vijfhoek and F16Gaming.");

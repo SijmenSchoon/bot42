@@ -80,7 +80,7 @@ public class Bot42 {
 							}
 							buffer = buffer.trim();
 							write("PRIVMSG " + splitMessage[2] + " :" + buffer);
-						} else if (splitMessage[3].equals(".raw")) {
+						} else if (splitMessage[3].equals(":.raw")) {
 							String buffer = "";
 							for (int i = 4; i < splitMessage.length; i++) {
 								buffer += splitMessage[i] + " ";

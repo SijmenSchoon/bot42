@@ -20,8 +20,9 @@ public class Bot42 {
 		System.out.println("Bot42 IRC Bot by Vijfhoek and F16Gaming.");
 		System.out.println("TODO: Add copyright information if we're going to use a license.");
 		System.out.println("TODO: Add more TODO statements.");
+		
 		boolean connected = false;
-		boolean joined = false;
+		
 		try {
 			ircSocket = new Socket(host, port);
 			ircWriter = new PrintWriter(ircSocket.getOutputStream());
@@ -41,7 +42,6 @@ public class Bot42 {
 				if (!connected) {
 					if (splitMessage[1].equals("376")) {
 						connected = true;
-						joined = true;
 						write("JOIN #Bot42");
 					} else if (splitMessage[1].equals("433")) {
 						write("NICK Bot42|2");

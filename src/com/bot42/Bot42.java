@@ -49,8 +49,8 @@ public class Bot42 {
 						write("JOIN #Bot42");
 						write("PRIVMSG #Bot42 Hello World!");
 					} else if (splitMessage[1].equals("433")) {
-						write("NICK " + nick + "|2");
 						nick = nick + "|2";
+						write("NICK " + nick);
 					}
 				}
 				if (splitMessage[1].equals("366")) {

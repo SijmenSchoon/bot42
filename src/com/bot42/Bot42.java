@@ -17,6 +17,9 @@ public class Bot42 {
 	public static BufferedReader ircReader = null;
 	
 	public static void main(String[] args) {
+		System.out.println("Bot42 IRC Bot by Vijfhoek and F16Gaming.");
+		System.out.println("TODO: Add copyright information if we're going to use a license.");
+		System.out.println("TODO: Add more TODO statements.");
 		boolean connected = false;
 		boolean joined = false;
 		try {

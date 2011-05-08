@@ -13,7 +13,8 @@ public class Bot42 {
 	
 	public static String read() {
 		String line = "";
-		System.out.println("[IN]  " + line);
+		// space before [IN] to make it line up a bit nicer?
+		System.out.println(" [IN] " + line);
 		return line;
 	}
 }

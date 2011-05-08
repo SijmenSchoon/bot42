@@ -8,10 +8,12 @@ public class Bot42 {
 	}
 	
 	public static void send(String line) {
-		
+		System.out.println("[OUT] " + line);
 	}
 	
 	public static String read() {
-		return "";
+		String line = "";
+		System.out.println("[IN]  " + line);
+		return line;
 	}
 }

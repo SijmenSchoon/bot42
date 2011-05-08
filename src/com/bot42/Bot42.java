@@ -80,4 +80,8 @@ public class Bot42 {
 		System.out.println(" [IN] " + line);
 		return line;
 	}
+	
+	public static boolean isOp(String nick, String channel) {
+		return false;
+	}
 }

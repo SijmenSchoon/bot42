@@ -55,7 +55,7 @@ public class Bot42 {
 						write("NICK " + nick);
 					}
 				}
-				// :matilda.kottnet.net 353 Bot42 = #Bot42 :Bot42 ITSBTH @F16Gaming @ChanServ @Vijfhoek
+				
 				if (splitMessage[1].equals("366")) {
 					joinedChannels.add(splitMessage[3]);
 				} else if (splitMessage[1].equals("353")) {
@@ -68,7 +68,8 @@ public class Bot42 {
 					}
 					channelOps.put(splitMessage[4], ops);
 				}
-				else if (splitMessage[1].equals("KICK") && splitMessage[3].equals(nick)) {
+				
+				if (splitMessage[1].equals("KICK") && splitMessage[3].equals(nick)) {
 					joinedChannels.remove(splitMessage[2]);
 				} else if (splitMessage[1].equals("PRIVMSG")) {
 					if (isOp(hostToNick(splitMessage[0]), splitMessage[2])) {

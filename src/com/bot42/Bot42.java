@@ -54,7 +54,6 @@ public class Bot42 {
 					if (splitMessage[1].equals("376")) {
 						connected = true;
 						write("JOIN #Bot42");
-						write("PRIVMSG #Bot42 :Hello World!");
 					} else if (splitMessage[1].equals("433")) {
 						nick = nick + "|2";
 						write("NICK " + nick);

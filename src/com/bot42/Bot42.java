@@ -35,10 +35,7 @@ public class Bot42 {
 		System.out.println("TODO: Add copyright information if we're going to use a license.");
 		System.out.println("TODO: Add more TODO statements.");
 		System.out.println();
-		
-		boolean connected = false;
-		
-		
+
 		// TODO Add a config file for this
 		bot42.globalOps.add("Vijfhoek");
 		bot42.globalOps.add("F16Gaming");
@@ -54,21 +51,17 @@ public class Bot42 {
 			while (true) {
 				String message = bot42.read();
 				String[] splitMessage = message.split(" ");
-				//  [IN] :Vijfhoek!~sijmen@god-division.co.cc NOTICE Bot42 :PING 
+				
 				if (splitMessage[0].equals("PING")) {
 					bot42.write("PONG " + splitMessage[1]);
 				}
-				if (!connected) {
-					if (splitMessage[1].equals("376")) {
-						connected = true;
-						bot42.write("JOIN #Bot42");
-					} else if (splitMessage[1].equals("433")) {
-						bot42.nick += "|2";
-						bot42.write("NICK " + bot42.nick);
-					}
-				}
 				
-				if (splitMessage[1].equals("366")) {
+				if (splitMessage[1].equals("376")) {
+					bot42.write("JOIN #Bot42");
+				} else if (splitMessage[1].equals("433")) {
+					bot42.nick += "|2";
+					bot42.write("NICK " + bot42.nick);
+				} else if (splitMessage[1].equals("366")) {
 					bot42.joinedChannels.add(splitMessage[3]);
 				} else if (splitMessage[1].equals("353")) {
 					bot42.channelOps.remove(splitMessage[4]);

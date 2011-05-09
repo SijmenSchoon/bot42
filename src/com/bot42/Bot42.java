@@ -139,7 +139,12 @@ public class Bot42 {
 								channel = splitMessage[4];
 							}
 							bot42.write("PART " + channel + " :Requested by " + bot42.hostToNick(splitMessage[0]));
-						} else if (splitMessage[3].equals(":.ping")) {
+						} else if (splitMessage[3].equals(":.join")) {
+							String channel = splitMessage[4];
+							bot42.write("JOIN " + channel);
+						}
+						
+						else if (splitMessage[3].equals(":.ping")) {
 							// TODO Make the bot also ping Google and the IRC network
 							bot42.write("PRIVMSG " + bot42.hostToNick(splitMessage[0]) + " :\u0001PING\u0001");
 							bot42.pingSent = new Date();

@@ -71,6 +71,7 @@ public class Bot42 {
 				if (splitMessage[1].equals("366")) {
 					bot42.joinedChannels.add(splitMessage[3]);
 				} else if (splitMessage[1].equals("353")) {
+					bot42.channelOps.remove(splitMessage[4]);
 					List<String> ops = new LinkedList<String>(); 
 					for (int i = 5; i < splitMessage.length; i++) {
 						String targetNick = splitMessage[i].replace(":", "");
@@ -88,8 +89,14 @@ public class Bot42 {
 						if (bot42.hostToNick(splitMessage[0]).equals(bot42.pingUser)) {
 							Date timeNow = new Date();
 							int lag = (int)(timeNow.getTime() - bot42.pingSent.getTime());
-							bot42.write("PRIVMSG " + bot42.pingChan + " :Ping reply from " + bot42.pingUser + " in " + lag + " milliseconds");
+							bot42.write("PRIVMSG " + bot42.pingChan + " :Ping reply from \u0002" + bot42.pingUser + "\u0002 in " + (lag)/60000 + "m " + (lag%60000)/1000 + "s " + (lag%1000) + "ms");
 						}
+					}
+				} else if (splitMessage[1].equals("MODE")) {
+					bot42.write("NAMES " + splitMessage[2]);
+				} else if (splitMessage[1].equals("NICK")) {
+					for (int i = 0; i < bot42.joinedChannels.size(); i++) {
+						bot42.write("NAMES " + bot42.joinedChannels.get(i));
 					}
 				}
 				
@@ -100,14 +107,14 @@ public class Bot42 {
 							for (int i = 4; i < splitMessage.length; i++) {
 								buffer += splitMessage[i] + " ";
 							}
-							buffer = buffer.trim();
+							if (buffer.startsWith("."))
+								buffer = "\u0002" + "." + "\u0002" + buffer.substring(1);
 							bot42.write("PRIVMSG " + splitMessage[2] + " :" + buffer);
 						} else if (splitMessage[3].equals(":.raw")) {
 							String buffer = "";
 							for (int i = 4; i < splitMessage.length; i++) {
 								buffer += splitMessage[i] + " ";
 							}
-							buffer = buffer.trim();
 							bot42.write(buffer);
 						} else if (splitMessage[3].equals(":.kick")) {
 							String channel;

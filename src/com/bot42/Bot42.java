@@ -115,7 +115,6 @@ public class Bot42 {
 									buffer += splitMessage[i];
 								}
 							}
-							buffer = buffer.trim();
 							
 							bot42.write("QUIT" + buffer);
 						}

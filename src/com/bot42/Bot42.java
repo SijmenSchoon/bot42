@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,6 +23,10 @@ public class Bot42 {
 	private List<String> joinedChannels = new LinkedList<String>();
 	private List<String> globalOps = new LinkedList<String>();
 	private HashMap<String, List<String>> channelOps = new HashMap<String, List<String>>();
+	
+	private Date pingSent = new Date();
+	private String pingChan = null;
+	private String pingUser = null;
 	
 	private static Bot42 bot42 = new Bot42();
 	
@@ -49,7 +54,7 @@ public class Bot42 {
 			while (true) {
 				String message = bot42.read();
 				String[] splitMessage = message.split(" ");
-				
+				//  [IN] :Vijfhoek!~sijmen@god-division.co.cc NOTICE Bot42 :PING 
 				if (splitMessage[0].equals("PING")) {
 					bot42.write("PONG " + splitMessage[1]);
 				}
@@ -78,7 +83,17 @@ public class Bot42 {
 				
 				if (splitMessage[1].equals("KICK") && splitMessage[3].equals(bot42.nick)) {
 					bot42.joinedChannels.remove(splitMessage[2]);
-				} else if (splitMessage[1].equals("PRIVMSG")) {
+				} else if (splitMessage[1].equals("NOTICE")) {
+					if (splitMessage[3].contains("PING")) {
+						if (bot42.hostToNick(splitMessage[0]).equals(bot42.pingUser)) {
+							Date timeNow = new Date();
+							int lag = (int)(timeNow.getTime() - bot42.pingSent.getTime());
+							bot42.write("PRIVMSG " + bot42.pingChan + " :Ping reply from " + bot42.pingUser + " in " + lag + " milliseconds");
+						}
+					}
+				}
+				
+				else if (splitMessage[1].equals("PRIVMSG")) {
 					if (bot42.isOp(bot42.hostToNick(splitMessage[0]), splitMessage[2])) {
 						if (splitMessage[3].equals(":.print")) {
 							String buffer = "";
@@ -124,6 +139,12 @@ public class Bot42 {
 								channel = splitMessage[4];
 							}
 							bot42.write("PART " + channel + " :Requested by " + bot42.hostToNick(splitMessage[0]));
+						} else if (splitMessage[3].equals(":.ping")) {
+							// TODO Make the bot also ping Google and the IRC network
+							bot42.write("PRIVMSG " + bot42.hostToNick(splitMessage[0]) + " :\u0001PING\u0001");
+							bot42.pingSent = new Date();
+							bot42.pingChan = splitMessage[2];
+							bot42.pingUser = bot42.hostToNick(splitMessage[0]);
 						}
 					}
 				}

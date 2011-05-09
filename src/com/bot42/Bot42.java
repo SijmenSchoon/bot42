@@ -115,8 +115,15 @@ public class Bot42 {
 									buffer += splitMessage[i];
 								}
 							}
-							
 							bot42.write("QUIT" + buffer);
+						} else if (splitMessage[3].equals(":.part")) {
+							String channel;
+							if (bot42.isChannel(splitMessage[2])) {
+								channel = splitMessage[2];
+							} else {
+								channel = splitMessage[4];
+							}
+							bot42.write("PART " + channel + " :Requested by " + bot42.hostToNick(splitMessage[0]));
 						}
 					}
 				}

@@ -107,6 +107,17 @@ public class Bot42 {
 							}
 							
 							bot42.write("KICK " + channel + " " + target + " :(" + bot42.hostToNick(splitMessage[0]) + ")");
+						} else if (splitMessage[3].equals(":.quit")) {
+							String buffer = "";
+							if (splitMessage.length > 4) {
+								buffer = " :";
+								for (int i = 4; i < splitMessage.length; i++) {
+									buffer += splitMessage[i];
+								}
+							}
+							buffer = buffer.trim();
+							
+							bot42.write("QUIT" + buffer);
 						}
 					}
 				}

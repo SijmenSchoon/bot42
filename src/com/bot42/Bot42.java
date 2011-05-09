@@ -152,9 +152,7 @@ public class Bot42 {
 	}
 	
 	public boolean isChannel(String target) {
-		if (target.startsWith("#"))
-			return true;
-		return false;
+		return target.startsWith("#");
 	}
 	
 	public String hostToNick(String host) {

@@ -1,7 +1,9 @@
 package com.bot42;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -31,5 +33,24 @@ public class Account {
 		writer.write("password=\"" + passhash + "\"\n");
 		writer.flush(); writer.close();
 		return true;
+	}
+	
+	public boolean checkPassword (String pass) throws Exception {
+		if (!location.exists()) return false;
+		String passhash = String.valueOf(pass.hashCode());
+		BufferedReader reader = new BufferedReader(new FileReader(location));
+		String configPasshash = "";
+		while (reader.ready()) {
+			String line = reader.readLine();
+			if (line.contains("password=")) {
+				configPasshash = line.split("=")[1].substring(1, line.split("=").length-2);
+				break;
+			}
+		}
+		
+		if (passhash.equals(String.valueOf(configPasshash))) {
+			return true;
+		}
+		return false;
 	}
 }

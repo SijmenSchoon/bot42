@@ -3,6 +3,7 @@ package com.bot42;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 
 public class Account {
 	private File location;
@@ -14,11 +15,20 @@ public class Account {
 		this.username = username;
 	}
 	
-	public boolean addUser () throws Exception {
+	public boolean addUser () throws IOException {
 		if (location.exists()) return false;
 		location.createNewFile();
 		BufferedWriter writer = new BufferedWriter(new FileWriter(location));
 		writer.write("username=\"" + username + "\"\n");
+		writer.flush(); writer.close();
+		return true;
+	}
+	
+	public boolean setPassword (String newpass) throws IOException {
+		if (!location.exists()) return false;
+		String passhash = String.valueOf(newpass.hashCode());
+		BufferedWriter writer = new BufferedWriter(new FileWriter(location));
+		writer.write("password=\"" + passhash + "\"\n");
 		writer.flush(); writer.close();
 		return true;
 	}

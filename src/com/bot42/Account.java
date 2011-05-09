@@ -48,7 +48,7 @@ public class Account {
 			}
 		}
 		
-		if (passhash.equals(String.valueOf(configPasshash))) {
+		if (passhash.equals(configPasshash)) {
 			return true;
 		}
 		return false;
